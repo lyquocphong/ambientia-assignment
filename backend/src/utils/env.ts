@@ -13,6 +13,18 @@ class EnvironmentVariables {
 
   @IsNumber()
   PORT: number;
+
+  @IsString()
+  SWAGGER_TITLE: string;
+
+  @IsString()
+  SWAGGER_DESCRIPTION: string;
+
+  @IsString()
+  SWAGGER_VERSION: string;
+
+  @IsString()
+  SWAGGER_ROUTE: string;
 }
 
 export function validate(config: Record<string, unknown>) {

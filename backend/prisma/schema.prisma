@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Booking {
-  id             Int       @id @default(autoincrement())
-  identifier     String    @default(uuid())
-  email          String
-  startTime      DateTime  @db.Timestamptz()
-  endTime        DateTime  @db.Timestamptz()
-  status         Int
-  createdAt      DateTime  @db.Timestamptz()
+  id         Int      @id @default(autoincrement())
+  identifier String   @default(uuid())
+  email      String?
+  startTime  DateTime @db.Timestamptz()
+  endTime    DateTime @db.Timestamptz()
+  status     Int
+  createdAt  DateTime @default(now()) @db.Timestamptz()
+  updatedAt  DateTime @updatedAt
 }

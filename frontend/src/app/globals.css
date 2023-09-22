@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background_primary: #ffede3;
+  --menu-list-selected-category-color: #000000;
+}
+
+body main.content {
+  background-color: var(--background_primary);
+}
+
+.hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/hero-1.jpg");
+}

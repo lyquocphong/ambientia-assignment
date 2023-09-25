@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { validate } from '@/utils/env';
+import { BookingModule } from './booking/booking.module';
+import { PrismaService } from 'prisma.service';
 
 @Module({
   imports: [
@@ -24,8 +26,9 @@ import { validate } from '@/utils/env';
         },
       },
     }),
+    BookingModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}

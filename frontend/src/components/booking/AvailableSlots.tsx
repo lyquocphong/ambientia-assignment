@@ -28,7 +28,7 @@ const AvailableSlots: React.FunctionComponent<AvaiableSlotsProps> = ({ from, to 
     const encodedTo = encodeURIComponent(to.toISOString());
 
     const url = `api/booking/availability?from=${encodedFrom}&to=${encodedTo}`;
-    const { data, isError, isLoading, revalidate } = useAPI<{ slots: Slot[]; }>(url);
+    const { data, isError, isLoading, revalidate } = useAPI<{ slots: Slot[]; }>(url, { cache: 'no-store' });
 
     useEffect(() => {
         setSelectedSlot(null);
@@ -47,6 +47,7 @@ const AvailableSlots: React.FunctionComponent<AvaiableSlotsProps> = ({ from, to 
             {
                 throwOnError: false,
                 onSuccess: () => {
+                    console.log('success');
                     revalidate();
                 }
             }

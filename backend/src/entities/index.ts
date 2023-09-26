@@ -79,6 +79,15 @@ export class Service {
     return moment(date).tz(defaultTimezone).set({ hour, minute });
   }
 
+  isValidSlot = (slot: BookingSlot, bookedSlots: BookingSlot[]) => {
+    let isOverlapsedSlot = false;
+    for (const booking of bookedSlots) {
+      isOverlapsedSlot = this.isOverlapsedSlot(slot, booking);
+    }
+
+    return !isOverlapsedSlot;
+  };
+
   isOverlapsedSlot = (checkSlot: BookingSlot, bookedSlot: BookingSlot) => {
     const slotStartTime = generateMomentFromIsoString(checkSlot.startTime);
     const slotEndTime = generateMomentFromIsoString(checkSlot.endTime);

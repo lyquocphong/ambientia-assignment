@@ -14,3 +14,7 @@ body main.content {
 .hero-image {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/hero-1.jpg");
 }
+
+.react-calendar__tile.react-calendar__tile--now:disabled {
+  color: blue;
+}

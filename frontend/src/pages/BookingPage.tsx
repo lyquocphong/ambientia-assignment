@@ -1,5 +1,6 @@
 'use client'
 
+import TimezoneSelector from '@/components/TimezoneSelector';
 import AvailableSlots from '@/components/booking/AvailableSlots';
 import BookingCalendar from '@/components/booking/BookingCalendar';
 import { AppProvider } from '@/contexts/AppContext';
@@ -29,7 +30,6 @@ const BookingPage: React.FunctionComponent<BookingPageProps> = ({ appInfo }) => 
             operationWeekDays.push(schedule.dateOfWeek);
         }
     })
-
     const onDateSelected = (date: moment.Moment) => {
         setSelectedDate(date);
     }
@@ -38,9 +38,8 @@ const BookingPage: React.FunctionComponent<BookingPageProps> = ({ appInfo }) => 
         <main className="relative content w-full md:max-w-md min-h-screen bg-blue-100">
             <section className='flex flex-col justify-center items-center'>
                 <AppProvider appInfo={appInfo}>
-                    <BookingCalendar onDateSelected={onDateSelected} selectedDate={selectedDate} operationDateOfWeek={operationWeekDays} />
-                    <h1>Selected date: {selectedDate.format('YYYY-MM-DD')}</h1>
-
+                    <TimezoneSelector />
+                    <BookingCalendar onDateSelected={onDateSelected} selectedDate={selectedDate} operationDateOfWeek={operationWeekDays} />                  
                     <AvailableSlots from={from} to={to} />
                 </AppProvider>
             </section>

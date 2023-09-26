@@ -1,11 +1,18 @@
 import { makeRequest } from "@/libs/request";
 
-type Schedule = {
+export type Schedule = {
     dateOfWeek: number;
     enabled: boolean;
     from: string;
     to: string;
 }
+
+export type BookingInfo = {
+    identifier: string;
+    email: string;
+    status: string;
+} & Slot;
+
 
 export type AppInfo = {
     service: {

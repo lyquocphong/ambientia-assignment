@@ -1,11 +1,10 @@
 'use client'
 
 import React from 'react'
-import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment-timezone';
-import { useAppContext } from '@/contexts/AppContext';
+import { useTimezone } from '@/hooks/useTimezone';
 
 type BookingCalendarProps = {
     onDateSelected?: (date: moment.Moment) => any,
@@ -14,8 +13,7 @@ type BookingCalendarProps = {
 }
 
 const BookingCalendar: React.FunctionComponent<BookingCalendarProps> = ({ onDateSelected, operationDateOfWeek, selectedDate }) => {
-
-    const { appInfo } = useAppContext();
+    const { timezone, format } = useTimezone();
 
     // Function to disable specific days of the week (e.g., Saturday and Sunday)
     const isDayDisabled = (date: Date) => {
@@ -25,12 +23,12 @@ const BookingCalendar: React.FunctionComponent<BookingCalendarProps> = ({ onDate
         }
 
         const dayOfWeek = date.getDay();
-        
+
         return !operationDateOfWeek.includes(dayOfWeek);
     };
-    
+
     const handleDateChange = (date: Date) => {
-        const selectedMoment = moment.tz(date, appInfo.timezone);
+        const selectedMoment = moment.tz(date, timezone);
 
         if (onDateSelected) {
             onDateSelected(selectedMoment);
@@ -44,7 +42,10 @@ const BookingCalendar: React.FunctionComponent<BookingCalendarProps> = ({ onDate
                 onChange={(value) => handleDateChange(value as Date)}
                 minDate={new Date()}
                 tileDisabled={({ date }) => isDayDisabled(date)}
+                tileClassName='bg-rose-500'
             />
+
+            <h1 className='text-center'>Selected date: {format(selectedDate.toISOString(), 'YYYY-MM-DD')}</h1>
         </div>
     );
 }

@@ -33,15 +33,54 @@ export class BookingService {
   async reserveBooking(reserveBookingDto: ReserveBookingDTO) {
     const service = getDefaultService();
 
-    const { startTime } = reserveBookingDto;
+    const { startTime, email } = reserveBookingDto;
     const { duration } = service;
     const startMoment = moment(startTime);
     const endMoment = startMoment.clone().add(duration, 'minute');
+
+    const condition = {
+      status: {
+        not: BookingStatus.CANCELLED,
+      },
+    };
+
+    const select = {
+      identifier: true,
+      status: true,
+      email: true,
+      startTime: true,
+      endTime: true,
+    };
+
+    const slot = new BookingSlot(
+      startMoment.toISOString(true),
+      endMoment.toISOString(true),
+    );
+
+    const bookedSlots = await this.findInRange(
+      startMoment,
+      endMoment,
+      select,
+      condition,
+    );
+
+    const isValidSlot = service.isValidSlot(
+      slot,
+      bookedSlots.map((booking) => ({
+        startTime: booking.startTime.toISOString(),
+        endTime: booking.endTime.toISOString(),
+      })),
+    );
+
+    if (isValidSlot === false) {
+      throw new BadRequestException('Invalid slot');
+    }
 
     const booking: Prisma.BookingCreateInput = {
       startTime: startMoment.toDate(),
       endTime: endMoment.toDate(),
       status: BookingStatus.RESERVE,
+      email,
     };
 
     return await this.prisma.booking.create({

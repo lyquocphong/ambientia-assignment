@@ -3,28 +3,22 @@ import {
   Body,
   Controller,
   Get,
-  NotImplementedException,
   Post,
-  Put,
   Query,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import {
   GetAvailabilityQuery,
   GetAvailabilityResponse,
 } from '@/booking/dtos/get-availability';
-import {
-  ReserveBookingDTO,
-  ReserveBookingResponse,
-} from '@/booking/dtos/reserve.dto';
+import { ReserveBookingDTO } from '@/booking/dtos/reserve.dto';
 import { isValidRange } from '@/utils/date';
 import { BookingResponse } from '@/booking/dtos/booking';
-import { BookingSlot } from '@/booking/types';
 @Controller('booking')
 @ApiTags('booking')
 export class BookingController {
-  constructor(private readonly bookingService: BookingService) {}
+  constructor(private readonly bookingService: BookingService) { }
 
   @Get()
   async getAll(): Promise<BookingResponse[]> {
@@ -53,10 +47,5 @@ export class BookingController {
   ): Promise<BookingResponse> {
     const booking = await this.bookingService.reserveBooking(reserveBookingDto);
     return BookingResponse.fromPrisma(booking);
-  }
-
-  @Put('/:identifier/confirm')
-  confirmBooking(): string {
-    throw new NotImplementedException();
   }
 }
